@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28531.58
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemeBox2000", "MemeBox2000\MemeBox2000.csproj", "{16770B14-829C-4529-A466-7622066AE804}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16770B14-829C-4529-A466-7622066AE804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16770B14-829C-4529-A466-7622066AE804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16770B14-829C-4529-A466-7622066AE804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16770B14-829C-4529-A466-7622066AE804}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22A419B1-2DF9-43EC-AC9B-5BEFE380912D}
+	EndGlobalSection
+EndGlobal
