@@ -1,0 +1,31 @@
+﻿@using Socha3.MemeBox2000.Models
+@using Socha3.Common.Extensions
+@using Microsoft.AspNetCore.Html
+
+@model MemeInfo
+
+@{
+    ViewBag.Title = "Submit Meme";
+    var validationSummary = Html.ValidationSummary();
+    var errorsHtml = validationSummary.ToString().Contains("display:none") ? new HtmlString("") :
+        new HtmlString("<div class=\"alert alert-danger\">" + Html.ValidationSummary().ToHtmlString() + "</div>");
+}
+
+@Html.Partial("_GalleryNav")
+
+<h2>Submit</h2>
+
+@using (Html.BeginForm("Submit", "Gallery", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+{
+    @errorsHtml
+    @Html.LabelFor(m => m.Title, new { style = "font-weight:bold;" })
+    @Html.TextBoxFor(m => m.Title, new { style = "font-weight:bold;" })<br />
+    @Html.LabelFor(m => m.Description, new { style = "font-weight:bold;" })
+    @Html.TextBoxFor(m => m.Description, new { style = "font-weight:bold;" })<br />
+    @Html.LabelFor(m => m.Genre, new { style = "font-weight:bold;" })
+    @Html.TextBoxFor(m => m.Genre, new { style = "font-weight:bold;" })
+    @Html.Label("File Upload", null, new { style = "font-weight:bold;" })
+    <input name="file" id="file" type="file" accept=".jpg,.gif,.jpeg,.png,.bmp,.webm,.webp" class="btn-sm btn-primary" style="padding:5px;" /><br />
+    <br />
+    <input type="submit" value="Submit" class="btn-sm btn-primary" />
+}

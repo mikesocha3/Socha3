@@ -1,0 +1,22 @@
+﻿@using Socha3.MemeBox2000.Models
+
+@model List<MemeInfo>
+
+@{
+  ViewBag.Title = "Gallery";
+}
+
+@Html.Partial("_GalleryNav")
+
+
+<h2 class="" style="">Gallery</h2>
+@foreach (MemeInfo meme in Model)
+{
+  <div class="img-thumbnail gallery-thumb">
+    <a href="@Url.Content("~/Gallery/Detail/" + meme.Id)" rel="gallery" class="thumbnail"
+       title="&quot;@meme.Title&quot; by @meme.UserEmail">
+
+      <img src="@Url.Content("~/Gallery/Meme/" + meme.Id + "?longestSide=100")" alt="@meme.Description" />
+    </a>
+  </div>
+}

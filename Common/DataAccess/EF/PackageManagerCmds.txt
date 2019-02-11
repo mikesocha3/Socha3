@@ -1,0 +1,11 @@
+﻿Make sure to set Default Project dropdown in Package Manager Console to the EF project
+
+Add-Migration MyMigrationName -ConfigurationTypeName DomoConfig
+Add-Migration MyMigrationName -ConfigurationTypeName DomoConfig -ConnectionStringName DomoDev -StartUpProjectName DataAccess
+Add-Migration MyMigrationName -ConfigurationTypeName DomoConfig -ConnectionStringName DomoLocal -StartUpProjectName DataAccess
+Add-Migration MyMigrationName -ConfigurationTypeName DomoConfig -ConnectionStringName DomoLocal -StartUpProjectName DataAccess
+
+Update-Database -ConnectionStringName DomoDebug -ConfigurationTypeName DomoConfig
+Update-Database -ConnectionStringName DomoDev -ConfigurationTypeName DomoConfig
+
+Update-Database DomoLocal -ConnectionStringName DomoLocal -ConfigurationTypeName DomoConfig -StartUpProjectName DataAccess

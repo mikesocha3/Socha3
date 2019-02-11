@@ -1,0 +1,52 @@
+﻿@using Socha3.MemeBox2000.Models
+@using Microsoft.AspNetCore.Html;
+@using Socha3.Common.Extensions;
+
+@model MemeInfo
+@{
+    ViewBag.Title = "Meme Detail View";
+    var imagePath = Url.Content("~/Gallery/Meme/" + Model.Id);
+    var ownsMeme = User.Identity.IsAuthenticated && Model.UserId == ViewBag.CurrentUserId;
+    var deleteHtml = ownsMeme ? Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary btn-lg" }) : new HtmlString("");
+    var titleHtml = ownsMeme ? Html.TextBoxFor(m => m.Title) : new HtmlString(Model.Title);
+    var descriptionHtml = ownsMeme ? Html.TextBoxFor(m => m.Description) : new HtmlString(Model.Description);
+    var genreHtml = ownsMeme ? Html.TextBoxFor(m => m.Genre) : new HtmlString(Model.Genre);
+    var uploadHtml = ownsMeme ? new HtmlString("<input type=\"file\" name=\"file\" id=\"file\" accept=\".jpg,.gif,.jpeg,.png,.bmp,.webm,.webp\" />") : new HtmlString("");
+    var urlHtml = Html.ActionLink(Context.Request.ToUri().Authority + imagePath, "Meme", new { id = Model.Id }, new { target = "_blank" });
+    var submitHtml = ownsMeme ? new HtmlString("<input type=\"submit\" value=\"Update\" class=\"btn btn-primary btn-lg\" />") : new HtmlString("");
+    var successHtml = ViewBag.SuccessMessage != null ? new HtmlString("<p class=\"alert alert-success\">" + ViewBag.SuccessMessage + "</p>") : new HtmlString("");
+}
+
+@Html.Partial("_GalleryNav")
+
+<h2>Meme Detail</h2>
+<br />
+<img src="@imagePath" />
+@using (Html.BeginForm("Update", "Gallery", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+{
+    <br />
+    @Html.LabelFor(m => m.Title, new { style = "font-weight:bold;" })
+    @titleHtml<br />
+    @Html.ValidationMessageFor(m => m.Title, null, new { style = "color:red;" });
+    @Html.LabelFor(m => m.Description, new { style = "font-weight:bold;" })
+    @descriptionHtml<br />
+    @Html.ValidationMessageFor(m => m.Description, null, new { style = "color:red;" });
+    @Html.LabelFor(m => m.Genre, new { style = "font-weight:bold;" })
+    @genreHtml<br />
+    @Html.ValidationMessageFor(m => m.Genre, null, new { style = "color:red;" })
+    @Html.Label("Submitted by:", null, new { style = "font-weight:bold;" })
+    @Model.UserEmail<br />
+    @Html.Label("Meme URL", null, new { style = "font-weight:bold;" })
+    @urlHtml<br />
+    @successHtml
+    @submitHtml
+    <text>&nbsp;&nbsp;&nbsp;&nbsp;</text>
+    @deleteHtml
+
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.UserEmail)
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.UserFirstName)
+    @Html.HiddenFor(m => m.UserLastName)
+}

@@ -1,0 +1,105 @@
+﻿<#@
+template debug="true" hostSpecific="true" #><#@
+output extension="generated.cs" #><#@
+assembly Name="EnvDTE" #><#@
+assembly Name="System.Data.dll" #><#@
+assembly Name="System.Data.Entity.Design.dll" #><#@
+assembly Name="System.Configuration.dll" #><#@
+assembly Name="System.Core.dll" #><#@
+import namespace="EnvDTE" #><#@
+import namespace="System.Data" #><#@
+import namespace="System.Data.SqlClient" #><#@
+import namespace="System.IO" #><#@
+import namespace="System.Collections.Generic" #><#@
+import namespace="System.Text.RegularExpressions" #><#@
+import namespace="System.Data.Entity.Design.PluralizationServices" #><#@
+import namespace="System" #><#@
+import namespace="System.Text" #><#@
+import namespace="System.Linq" #><#@
+import namespace="System.Configuration" #><#@
+import namespace="System.Text.RegularExpressions" #><#@
+import namespace="System.Globalization" #><#@
+import namespace="System.Reflection" #><#@
+import namespace="System.Diagnostics" #><#@
+import namespace="System.Runtime.CompilerServices" #><#@
+import namespace="System.CodeDom.Compiler" #><#@
+include file="Helpers.ttinclude" #><#
+	
+	IServiceProvider serviceProvider = (IServiceProvider)Host;
+    DTE dte = (DTE)serviceProvider.GetService(typeof(DTE));
+    Project project = dte.Solution.FindProjectItem(Host.TemplateFile).ContainingProject;
+
+    var nameParts = Path.GetFileNameWithoutExtension(Host.TemplateFile).Split(new char[]{'+'});
+    var path = Path.GetDirectoryName(Host.TemplateFile);
+
+    var tableName = nameParts[0];
+	var idCol = nameParts[1];
+	var itemNameCol = nameParts[2];
+	var descCol = nameParts[3];
+    var namespaceSuffix = nameParts[4];
+    var connStrName = nameParts[5];
+
+    var defaultNamespace = project.Properties.Item("DefaultNamespace").Value.ToString();
+
+    var config = new ConfigurationAccessor((IServiceProvider)this.Host, @"..\" + defaultNamespace + ".csproj");
+
+    var connectionString = config.ConnectionStrings[connStrName].ConnectionString;      
+#>using System.ComponentModel;
+ 
+namespace <#= defaultNamespace + "." + namespaceSuffix #>
+{
+    /// <summary>
+    /// <#= tableName #> auto generated enumeration
+    /// </summary>
+    public enum <#= tableName #>
+    {
+<#
+    var conn = new SqlConnection(connectionString);
+    var colNames = new List<string>();
+    var itemNameCols = itemNameCol.Split(new char[] {'-'}).ToList();
+    colNames.AddRange(itemNameCols);
+    colNames.Add(idCol);
+    colNames.Add(descCol);
+    
+    colNames = colNames.Where(cn => !string.IsNullOrWhiteSpace(cn)).Distinct().ToList();
+	
+	string orderByCol = null;
+	if(!string.IsNullOrWhiteSpace(idCol))
+		orderByCol = idCol;
+	else
+		orderByCol = descCol;
+
+    var sql = "select " + string.Join(", ", colNames) + " from " + tableName + " order by " + orderByCol;
+
+    var cmd = new SqlCommand(sql, conn);
+ 
+    conn.Open();
+ 
+    SqlDataReader reader = cmd.ExecuteReader();
+	
+	var body = new StringBuilder("");
+	var loop = reader.Read();
+    while(loop)
+    {
+        var enumIdSnippet = "";
+        if(!string.IsNullOrWhiteSpace(idCol))
+		    enumIdSnippet =  " = " + reader[idCol].ToString();
+        var pascalizedItemNameCols = new List<string>();
+        itemNameCols.ForEach(inc => pascalizedItemNameCols.Add(Util.Pascalize(reader[inc].ToString(), inc)));
+		var varName = string.Join("_", pascalizedItemNameCols);
+        var description = reader[descCol].ToString();
+
+        body.Append("\t\t/// <summary>\r\n");
+        body.Append("\t\t/// " + Util.XmlEscape(description) + "\r\n");
+        body.Append("\t\t/// </summary>\r\n");
+		body.Append("\t\t[Description(\"" + Util.StringEscape(description) + "\")]\r\n");
+        body.Append("\t\t" + varName + enumIdSnippet);
+		
+		loop = reader.Read();
+		
+		if(loop)	
+			body.Append(",\r\n\r\n");		
+	}
+    #><#= body == null ? "" : body.ToString() #>  
+	}
+}

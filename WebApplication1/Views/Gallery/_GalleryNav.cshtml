@@ -1,0 +1,7 @@
+﻿
+@using (Html.BeginForm("Index", "Gallery", FormMethod.Get, new { id = "genreFilter" }))
+{
+    <input id="genreTextbox" name="genreFilter" type="text" style="width:200px;" />
+    <input id="genreSubmit" type="submit" class="btn-sm btn-primary" value="Filter Genre" />
+    <input value="New Meme" type="button" class="btn-sm btn-primary" onclick="window.location = '/Gallery/Submit'" />
+}

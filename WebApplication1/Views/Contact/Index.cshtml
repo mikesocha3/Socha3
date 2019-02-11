@@ -1,0 +1,63 @@
+﻿@using  Socha3.MemeBox2000
+@using Socha3.MemeBox2000.Models
+
+@model ContactMessage
+
+@{
+  ViewBag.Title = "Contact";
+}
+
+<!-- CONTACT -->
+<div class="row-fluid" id="contact">
+
+  <h2 class="page-title" id="scroll_up">
+    Contact
+  </h2>
+
+  <!-- CONTACT INFO -->
+  <div class="span4" id="contact-info">
+    <h3>Contact Us</h3>
+    <p>MemeBox2000 is free and thus its operating costs are usually absorbed cheritably by its owner, <a href="https://socha3.com">Mike Socha III</a>.  If you'd like to donate or help develop the site, use the below form to contact!</p>
+  </div>
+
+  <!-- CONTACT FORM -->
+  <div class="span7" id="contact-form">
+    @using (Html.BeginForm("SubmitMessage", "Contact", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+      <p>@ViewBag.Message</p>
+
+      @Html.ValidationSummary()
+
+      <fieldset>
+        <div class="control-group">
+          @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+          <div class="controls">
+            @Html.TextBoxFor(m => m.Name, new { @class = "input-xlarge", type = "text", placeholder = "John Doe" })
+          </div>
+        </div>
+        <div class="control-group">
+          @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+          <div class="controls">
+            @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", type = "text", placeholder = "john@gmail.com" })
+          </div>
+        </div>
+        <div class="control-group">
+          @Html.LabelFor(m => m.Subject, new { @class = "control-label" })
+          <div class="controls">
+            @Html.TextBoxFor(m => m.Subject, new { @class = "input-xlarge", type = "text", placeholder = "General Inquiry" })
+          </div>
+        </div>
+        <div class="control-group">
+          @Html.LabelFor(m => m.Message, new { @class = "control-label" })
+          <div class="controls">
+            @Html.TextAreaFor(m => m.Message, new { @class = "input-xlarge", rows = "3", type = "text", placeholder = "Your message..." })
+          </div>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn btn-primary" value="SEND" />
+        </div>
+      </fieldset>
+    }
+  </div>
+
+</div>

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace MemeBox2000
+namespace Socha3.MemeBox2000
 {
     public class Program
     {

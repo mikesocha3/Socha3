@@ -1,0 +1,19 @@
+﻿@using Socha3.Common.AppEnvironment
+@using  Socha3.MemeBox2000
+
+<div class="footer container container-fluid">
+
+  <div id="copyright">
+    Copyright &copy; @DateTime.Now.Year Socha3<br />
+    Configuration: @ViewBag.AssemblyDetails.Configuration<br />
+    Identity: @AppEnv.Identity<br />
+    Server: @AppEnv.Server<br />
+    Build Date: @ViewBag.AssemblyDetails.BuiltOn<br />
+    Git Commit: @ViewBag.AssemblyDetails.GitCommit
+  </div>
+
+  <div id="credits">
+    <a href="http://github.differential.io/flexapp">Theme</a> by <a href="http://carp.io">Carp</a>.
+  </div>
+
+</div>

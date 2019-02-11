@@ -1,0 +1,75 @@
+﻿@using System.Configuration
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- CHANGE THIS TITLE TAG -->
+    <title>@ViewBag.Title - MemeBox2000.com</title>
+
+    <!-- media-queries.js -->
+    <!--[if lt IE 9]>
+        <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <!-- html5.js -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+    <link href="@Url.Content("~/Content/font/stylesheet.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/styles.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/media-queries.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fancybox/jquery.fancybox-1.3.4.css")" rel="stylesheet" type="text/css" media="screen" />
+
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="@Url.Content("~/Content/img/favicon.ico")" rel="shortcut icon" type="image/x-icon">
+    <link href="@Url.Content("~/Content/font-family-exo-400-800.css")" rel="stylesheet" type="text/css">
+
+</head>
+<body data-spy="scroll">
+
+    @Html.Partial("_Nav")
+
+    <div class="container content container-fluid" id="home">
+        @RenderBody()
+    </div>
+
+    @Html.Partial("_Footer")
+
+    <script src="@Url.Content("~/Scripts/jquery-2.1.1.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-collapse.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-scrollspy.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+
+    @{
+        var callbackUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/LoginCallback.ashx";
+    }
+    <script src="https://cdn.auth0.com/js/lock/10.14/lock.min.js"></script>
+    <script type="text/javascript">       
+
+        var lock = new Auth0Lock('@ConfigurationManager.AppSettings["auth0:ClientId"]', '@ConfigurationManager.AppSettings["auth0:Domain"]', {
+            auth: {
+                redirectUrl: '@callbackUrl',
+                responseType: 'code',
+                params: {
+                    scope: 'openid profile'
+                }
+            }
+        });
+
+
+        function signin() {
+            lock.show();
+        }
+    </script>
+</body>
+</html>

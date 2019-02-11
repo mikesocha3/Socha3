@@ -1,0 +1,570 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Auth0</name>
+    </assembly>
+    <members>
+        <member name="T:Auth0.Client">
+            <summary>
+            Provides access to Auth0 services.
+            </summary>
+        </member>
+        <member name="M:Auth0.Client.#ctor(System.String,System.String,System.String,System.Net.IWebProxy,Auth0.DiagnosticsHeader)">
+            <summary>
+            Creates an instance of the client.
+            </summary>
+            <param name="clientID">The client id of the application, as shown in the dashboard settings.</param>
+            <param name="clientSecret">The client secret of the application, as shown in the dashboard settings.</param>
+            <param name="domain">The domain for the Auth0 server.</param>
+            <param name="webProxy">Proxy to use for requests made by this client instance. Passed on to underying WebRequest if set.</param>
+            <param name="diagnostics">A <see cref="T:Auth0.DiagnosticsHeader"/> instance that contains diagnostic information sent to Auth0.  Default = <see cref="P:Auth0.DiagnosticsHeader.Default"/> </param>
+        </member>
+        <member name="M:Auth0.Client.#ctor(System.String,System.String,System.Net.IWebProxy,Auth0.DiagnosticsHeader)">
+            <summary>
+            Creates an instance of the client for unauthenticated requests.
+            </summary>
+            <remarks>This constructor does not take a clientSecret, and thus only provides
+            access to operations that don't require a clientSecret or access token.</remarks>
+            <param name="clientID">The client id of the application, as shown in the dashboard settings.</param>
+            <param name="domain">The domain for the Auth0 server.</param>
+            <param name="webProxy">Proxy to use for requests made by this client instance. Passed on to underying WebRequest if set.</param>
+            <param name="diagnostics">A <see cref="T:Auth0.DiagnosticsHeader"/> instance that contains diagnostic information sent to Auth0.  Default = <see cref="P:Auth0.DiagnosticsHeader.Default"/> </param>
+        </member>
+        <member name="M:Auth0.Client.GetConnections(System.Int32)">
+            <summary>
+            Returns a list of all the connections defined for the application.
+            </summary>
+            <returns>An IEnumerable of connections.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetSocialConnections(System.Int32)">
+            <summary>
+            Returns a list of all the social connections defined for the application.
+            </summary>
+            <returns>An IEnumerable of connections.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetEnterpriseConnections(System.Int32)">
+            <summary>
+            Returns a list of all the enterprise connections defined for the application.
+            </summary>
+            <returns>An IEnumerable of connections.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateConnection(Auth0.ProvisioningTicket)">
+            <summary>
+            Creates a new connection using a provisioning ticket.
+            </summary>
+            <param name="provisioningTicket">The provisioning ticket containing the options for the new connection.</param>
+            <returns>An instance of CreateConnectionResult containing the results of the operation.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateConnection(Auth0.Connection)">
+            <summary>
+            Creates a new connection.
+            </summary>
+            <param name="ticket">An instance of a Connection object representing the connection to create.</param>
+            <returns>An instance of the Connection object created.</returns>
+        </member>
+        <member name="M:Auth0.Client.DeleteConnection(System.String)">
+            <summary>
+            Deletes a previously created connection.
+            </summary>
+            <param name="connectionName">The name of the connection to delete.</param>
+        </member>
+        <member name="M:Auth0.Client.GetUsersByConnection(System.String,System.Int32)">
+             <summary>
+             Gets the first page of users available in a connection.
+            
+             </summary>
+             <param name="connectionName">The connection name.</param>
+             <returns>An Page and IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetUsersByConnection(System.String,System.String,System.Int32)">
+            <summary>
+            Gets the first page of users available in a connection that match a search string.
+            
+            If the connection doesn't have a directory or it is a social connection like 
+            Google OAuth 2 it will return all the users that have logged in to your 
+            application at least once.
+            
+            If the connection is an enterprise connection and supports directory queries it will fetch
+            the users from there.
+            
+            </summary>
+            <param name="connectionName">The connection name.</param>
+            <param name="search">The search string to use.</param>
+            <returns>An IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetSocialUsers(System.Int32)">
+            <summary>
+            Gets the first page of users available in social connections.
+            If the connection doesn't have a directory or it is a social connection like 
+            Google OAuth 2 it will return all the users that have logged in to your 
+            application at least once.
+            </summary>
+            <returns>An IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetSocialUsers(System.String,System.Int32)">
+            <summary>
+            Gets the first page of users available in social connections that match a search string.
+            If the connection doesn't have a directory or it is a social connection like 
+            Google OAuth 2 it will return all the users that have logged in to your 
+            application at least once.
+            </summary>
+            <param name="search">The search string to use.</param>
+            <returns>An IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetEnterpriseUsers(System.Int32)">
+            <summary>
+            Gets the first page of users available in enterprise connections.
+            If the connection doesn't have a directory or it is a social connection like 
+            Google OAuth 2 it will return all the users that have logged in to your 
+            application at least once.
+            </summary>
+            <returns>An IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetEnterpriseUsers(System.String,System.Int32)">
+            <summary>
+            Gets the first page of users available in enterprise connections that match a search string.
+            If the connection doesn't have a directory or it is a social connection like 
+            Google OAuth 2 it will return all the users that have logged in to your 
+            application at least once.
+            </summary>
+            <param name="search">The search string to use.</param>
+            <returns>An IEnumerable of User instances.</returns>
+        </member>
+        <member name="M:Auth0.Client.ExchangeAuthorizationCodePerAccessToken(System.String,System.String)">
+            <summary>
+            Asks the server an access token, providing an authorization code.
+            </summary>
+            <param name="code">The authorization code received.</param>
+            <param name="redirectUri">The redirect uri.</param>
+            <returns>An instance of TokenResult containing the access token.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetUserInfo(System.String)">
+            <summary>
+            Gets user information from an access token.
+            </summary>
+            <param name="accessToken">The access token.</param>
+            <returns>An instance of UserProfile contaning the user information.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetUserInfo(Auth0.TokenResult)">
+            <summary>
+            Gets user information from an token result.
+            </summary>
+            <param name="tokenResult">The token result.</param>
+            <returns>An instance of UserProfile contaning the user information.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetUser(System.String)">
+            <summary>
+            Gets user information from the internal id (_id).
+            </summary>
+            <param name="userId">The internal id.</param>
+            <returns>An instance of UserProfile contaning the user information.</returns>
+        </member>
+        <member name="M:Auth0.Client.GetDelegationToken(System.String,System.String,System.String)">
+            <summary>
+            Gets a delegation token.
+            </summary>
+            <param name="token">The current access token.</param>
+            <param name="targetClientId">The client id of the target application.</param>
+            <param name="scope">The openid scope.</param>
+            <returns>An instance of DelegationTokenResult containing the delegation token id.</returns>
+        </member>
+        <member name="M:Auth0.Client.LoginUser(System.String,System.String,System.String,System.String)">
+            <summary>
+            Logs a user with username/password (active authentication).
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <param name="connection">The connection name.</param>
+            <param name="scope">The openid scope.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auth0.Client.UpdateUserMetadata(System.String,System.Object)">
+            <summary>
+            Updates a user metadata. Existing metadata will not be modified or deleted
+            unless new data is provided with the same key.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="metadata">An object that contains the metadata to set for the user.</param>
+        </member>
+        <member name="M:Auth0.Client.UpdateUserMetadata(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Updates a user metadata. Existing metadata will not be modified or deleted
+            unless new data is provided with the same key.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="metadata">An object that contains the metadata to set for the user.</param>
+        </member>
+        <member name="M:Auth0.Client.BlockUser(System.String)">
+            <summary>
+            Block a user by setting block metadata to true
+            </summary>
+            <param name="userId">The userId to be blocked</param>
+        </member>
+        <member name="M:Auth0.Client.UnblockUser(System.String)">
+            <summary>
+            Unblock a user by setting block metadata to false
+            </summary>
+            <param name="userId">The userId to be unblocked</param>
+        </member>
+        <member name="M:Auth0.Client.SetUserMetadata(System.String,System.Object)">
+            <summary>
+            Sets user metadata. All existing metadata will be replaced with
+            the data provided here.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="metadata">An object that contains the metadata to set for the user.</param>
+        </member>
+        <member name="M:Auth0.Client.SetUserMetadata(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets user metadata. All existing metadata will be replaced with
+            the data provided here.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="metadata">An object that contains the metadata to set for the user.</param>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="email">The user's email.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(Auth0.UserIdentifier,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="identifier">The user's identifier.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="email">The user's email.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <param name="metadata">Additional metadata to include in the user's profile.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(Auth0.UserIdentifier,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="identifier">The user's identifier.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <param name="metadata">Additional metadata to include in the user's profile.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(System.String,System.String,System.String,System.Boolean,System.Object)">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="email">The user's email.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <param name="metadata">Additional metadata to include in the user's profile.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.CreateUser(Auth0.UserIdentifier,System.String,System.String,System.Boolean,System.Object)">
+            <summary>
+            Creates a new user (only valid for database connections).
+            </summary>
+            <param name="identifier">The user's identifier.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="connection">The name of the database connection to store the user.</param>
+            <param name="emailVerified">True if the emails is already verified, false if a verification message is required.</param>
+            <param name="metadata">Additional metadata to include in the user's profile.</param>
+            <returns>The profile of the user created.</returns>
+        </member>
+        <member name="M:Auth0.Client.ChangePassword(System.String,System.String,System.Boolean)">
+            <summary>
+            Changes a user password (only for database connections).
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="newPassword">The new password to set.</param>
+            <param name="verify">True if a verification email message is required, false otherwise.</param>
+        </member>
+        <member name="M:Auth0.Client.ChangePassword(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Changes a user password (only for database connections).
+            </summary>
+            <param name="email">The email address of the user.</param>
+            <param name="newPassword">The new password to set.</param>
+            <param name="connection">The name of the connection in which the user exists.</param>
+            <param name="verify">True if a verification email message is required, false otherwise.</param>
+        </member>
+        <member name="M:Auth0.Client.ChangeEmail(System.String,System.String,System.Boolean)">
+            <summary>
+            Changes a user email (the email used to login)
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="newEmail">The new email to set.</param>
+        </member>
+        <member name="M:Auth0.Client.Unlink(System.String,System.String)">
+            <summary>
+            Unlink an identity from the primary account/identity
+            </summary>
+            <param name="userId">the userId that must be unlinked in the provider|id format</param>
+            <param name="accessToken">primary identity access token</param>
+        </member>
+        <member name="M:Auth0.Client.DeleteUser(System.String)">
+            <summary>
+            Deletes a user.
+            </summary>
+            <param name="userId">The id of the user to delete.</param>
+        </member>
+        <member name="M:Auth0.Client.GenerateChangePasswordTicket(System.String,System.String,System.String)">
+            <summary>
+            Generates change password ticket.
+            </summary>
+            <param name="userId"></param>
+            <param name="newPassword"></param>
+            <param name="resultUrl">Post verification url</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auth0.Client.GenerateVerificationTicket(System.String,System.String)">
+            <summary>
+            Generates verification ticket.
+            </summary>
+            <param name="userId"></param>
+            <param name="resultUrl">Post verification url</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auth0.Client.ValidateUser(System.String,System.String,System.String)">
+            <summary>
+            Validate the username and password for a specific connection.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <param name="connection">The connection name.</param>
+        </member>
+        <member name="M:Auth0.Client.ParseLinks(RestSharp.Parameter)">
+            <summary>
+            Given the 'Links' header will parse the links that have been returned from the API.
+            </summary>
+            <param name="linksHeader">The links header, which may be null or contain an empty string.</param>
+            <returns>A dictionary of links, with the key being the <c>rel</c> and the value the URL.</returns>
+        </member>
+        <member name="T:Auth0.DelegationTokenResult">
+            <summary>
+            Contains the result from the Delegation endpoint.
+            </summary>
+        </member>
+        <member name="M:Auth0.DelegationTokenResult.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:Auth0.DelegationTokenResult"/> the class.
+            </summary>
+        </member>
+        <member name="P:Auth0.DelegationTokenResult.IdToken">
+            <summary>
+            Gets the delegation id token.
+            </summary>
+        </member>
+        <member name="P:Auth0.DelegationTokenResult.ValidTo">
+            <summary>
+            Gets the last instant in time at which this security token is valid.
+            </summary>
+        </member>
+        <member name="P:Auth0.DelegationTokenResult.ValidFrom">
+            <summary>
+            Gets the first instant in time at which this security token is valid.
+            </summary>
+        </member>
+        <member name="P:Auth0.DelegationTokenResult.TokenType">
+            <summary>
+            Gets the type of the returned token.
+            </summary>
+        </member>
+        <member name="T:Auth0.DiagnosticsComponent">
+            <summary>
+            Represents information about a software component that's used for diagnostic purposes.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsComponent.#ctor(System.String,System.Object)">
+            <summary>
+            Creates a new instance with the specified name and version.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsComponent.#ctor(System.Reflection.AssemblyName)">
+            <summary>
+            Creates a new instance by examining the specified <see cref="T:System.Reflection.AssemblyName"/>.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsComponent.Name">
+            <summary>
+            Gets the name of the component.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsComponent.Version">
+            <summary>
+            Gets the version of the component.
+            </summary>
+        </member>
+        <member name="T:Auth0.DiagnosticsHeader">
+            <summary>
+            Represents important information pertaining to the SDK that is sent to Auth0 for diagnostic purposes.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.AddDependency(Auth0.DiagnosticsComponent)">
+            <summary>
+            Adds a new dependency instance to the SDK's <see cref="P:Auth0.DiagnosticsHeader.Dependencies"/>.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.AddDependency(System.String,System.Object)">
+            <summary>
+            Adds a new dependency to the SDK's <see cref="P:Auth0.DiagnosticsHeader.Dependencies"/>.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.AddEnvironment(Auth0.DiagnosticsComponent)">
+            <summary>
+            Adds a new environment entry instance to the SDK's <see cref="T:System.Environment"/>.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.AddEnvironment(System.String,System.Object)">
+            <summary>
+            Adds a new environment to the SDK's <see cref="T:System.Environment"/>.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.ToString">
+            <summary>
+            Returns a string representation of the <see cref="T:Auth0.DiagnosticsHeader"/> that is safe for HTTP transport.
+            </summary>
+        </member>
+        <member name="M:Auth0.DiagnosticsHeader.Reset">
+            <summary>
+            Resets the <see cref="P:Auth0.DiagnosticsHeader.Default"/> and <see cref="P:Auth0.DiagnosticsHeader.Suppress"/> instances.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsHeader.Default">
+            <summary>
+            Gets the <see cref="T:Auth0.DiagnosticsHeader"/> instance that contains the default set of SDK information.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsHeader.Suppress">
+            <summary>
+            Gets the <see cref="T:Auth0.DiagnosticsHeader"/> instance that tells the SDK to not send the diagnostic header.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsHeader.Dependencies">
+            <summary>
+            Gets the set of components that represent the SDK's 3rd party dependencies.
+            </summary>
+        </member>
+        <member name="P:Auth0.DiagnosticsHeader.Environments">
+            <summary>
+            Gets a set of components that represent the SDK's execution environment.
+            </summary>
+        </member>
+        <member name="T:RestSharp.Serializers.JsonSerializer">
+            <summary>
+            Default JSON serializer for request bodies
+            Doesn't currently use the SerializeAs attribute, defers to Newtonsoft's attributes
+            </summary>
+        </member>
+        <member name="M:RestSharp.Serializers.JsonSerializer.#ctor">
+            <summary>
+            Default serializer
+            </summary>
+        </member>
+        <member name="M:RestSharp.Serializers.JsonSerializer.#ctor(Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Default serializer with overload for allowing custom Json.NET settings
+            </summary>
+        </member>
+        <member name="M:RestSharp.Serializers.JsonSerializer.Serialize(System.Object)">
+            <summary>
+            Serialize the object as JSON
+            </summary>
+            <param name="obj">Object to serialize</param>
+            <returns>JSON as String</returns>
+        </member>
+        <member name="P:RestSharp.Serializers.JsonSerializer.DateFormat">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:RestSharp.Serializers.JsonSerializer.RootElement">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:RestSharp.Serializers.JsonSerializer.Namespace">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:RestSharp.Serializers.JsonSerializer.ContentType">
+            <summary>
+            Content type for serialized content
+            </summary>
+        </member>
+        <member name="T:Auth0.Page`1">
+            <summary>
+            Represents a single page of results that have been returned from an Auth0 API call, such as
+            /users/ or /connections/.
+            </summary>
+            <remarks>
+            <para>
+            A page maintains a 'next' link, allowing the next page to be retrieved should one exist. If
+            a page is enumerated it will <em>not</em> automatically load the next page when reaching the
+            end of data. In order to enumerate through all results, with automatic paging, use the 
+            <see cref="M:Auth0.Page`1.AutoPaged"/> method on the first page that is returned from a <see cref="T:Auth0.Client"/> 
+            instance.
+            </para>
+            </remarks>
+            <typeparam name="T">The type of this page.</typeparam>
+        </member>
+        <member name="M:Auth0.Page`1.GetNextPage">
+            <summary>
+            If there are more items to fetch they will be loaded and returned, this page is not modified and
+            subsequent calls to this method will result in the fetch being executed again.
+            </summary>
+            <returns>The next page of data, or an empty <see cref="T:Auth0.Page`1"/> if there is no more data to return.</returns>
+        </member>
+        <member name="M:Auth0.Page`1.AutoPaged">
+            <summary>
+            Returns an <see cref="T:System.Collections.Generic.IEnumerator`1"/> that will automatically page in all results
+            as they are enumerated.
+            </summary>
+            <remarks>
+            Looping through all pages can result in a number of network calls, which makes the execution
+            time of this loop non-deterministic. If you want more control over loading then the <see cref="P:Auth0.Page`1.HasNextPage"/> property
+            and <see cref="M:Auth0.Page`1.GetNextPage"/> method should be used.
+            </remarks>
+            <returns>An enumerator that will loop through <em>all</em> results, loading in new pages automatically.</returns>
+        </member>
+        <member name="M:Auth0.Page`1.GetEnumerator">
+            <summary>
+            Gets the enumerator for this page, an enumerator which will loop around this page <em>only</em>, see the
+            <see cref="M:Auth0.Page`1.AutoPaged"/> method if you wish to enumerate around all results, regardless of number of pages or page
+            size.
+            </summary>
+            <returns>An enumerator for this page.</returns>
+        </member>
+        <member name="M:Auth0.Page`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets the enumerator for this page, an enumerator which will loop around this page <em>only</em>, see the
+            <see cref="M:Auth0.Page`1.AutoPaged"/> method if you wish to enumerate around all results, regardless of number of pages or page
+            size.
+            </summary>
+            <returns>An enumerator for this page.</returns>
+        </member>
+        <member name="P:Auth0.Page`1.HasNextPage">
+            <summary>
+            Returns a boolean indicating whether or not there are more items to fetch. If this
+            value is <c>true</c> then a call to <see cref="M:Auth0.Page`1.GetNextPage"/> will return another <see cref="T:Auth0.Page`1"/>
+            with the results of the next page.
+            </summary>
+        </member>
+    </members>
+</doc>

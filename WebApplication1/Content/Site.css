@@ -1,0 +1,10 @@
+﻿
+div.gallery-thumb {
+    display: inline-block;
+    width: 100px;
+}
+
+#site-title {
+    line-height: .8em;
+    word-break: break-word;
+}

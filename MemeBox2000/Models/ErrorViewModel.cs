@@ -1,6 +1,6 @@
 using System;
 
-namespace MemeBox2000.Models
+namespace Socha3.MemeBox2000.Models
 {
     public class ErrorViewModel
     {

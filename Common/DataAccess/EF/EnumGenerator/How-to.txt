@@ -1,0 +1,13 @@
+﻿Create a file in this Enums folder containing only this below include directive:
+<#@ include file="Includes/EnumGenerator.ttinclude" #>
+
+Give this .tt file the filename consisting of 5 different parts with each part being delimited by a + character.
+
+{tableName}+{idCol}+{titleCol}+{descCol}+{namespaceSuffix}+{connStrName}.tt
+
+{tableName} is obviously the db's lookup table name 
+{idCol} is the numeric datatype id column which will determine the enum's value (leave blank to not have enum int values)
+{titleCol} is the column of this lookup table which becomes the enum's variable name
+{descCol} becomes the Comment section as well as the Description attribute string value for each enum value
+{namespaceSuffix} gets appended to this project's default namespace as the namespace for the enum object
+{connStrName} is the db connection name used 
